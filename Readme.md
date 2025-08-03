@@ -50,6 +50,8 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 
+---
+
 ## How to Run the Project
 
 Follow these steps to get started:
