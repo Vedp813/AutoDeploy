@@ -62,7 +62,7 @@ Follow these steps to get started:
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Vedp813/AutoDeploy
 cd auto-deploy
 ```
 
