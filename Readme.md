@@ -21,19 +21,20 @@
 
 ## Project Structure
 
+```plaintext
 auto-deploy/
-├── app/
-│ ├── app.py
-│ └── ...
-├── main.py # Entry point
-├── parser.py # Parses natural language input
-├── repo_handler.py # Clones GitHub repo or unzips file
-├── script_generator.py # Generates deployment scripts
-├── terraform_generator.py # Creates Terraform configs
-├── terraform_runner.py # Simulates Terraform run
-├── docker_generator.py # Builds Docker-related files
-├── requirements.txt
-└── README.md
+├── main.py                      # CLI entry point for deployment tool
+├── parser.py                   # Parses natural language prompts
+├── repo_handler.py             # Clones GitHub repo or unzips file
+├── script_generator.py         # Generates deployment scripts
+├── terraform_generator.py      # Creates Terraform configs
+├── terraform_runner.py         # Simulates Terraform run
+├── docker_generator.py         # Builds Docker-related files
+├── requirements.txt            # Python dependencies for the deployment tool
+├── templates/                  # Jinja2 templates for config generation
+│   └── aws_ec2.tf.j2          # Terraform template for AWS EC2 instance
+└── README.md                   # Project documentation
+```
 
 ---
 
@@ -50,6 +51,8 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 
+```
+
 ---
 
 ## How to Run the Project
@@ -61,17 +64,20 @@ Follow these steps to get started:
 ```bash
 git clone <your-repo-url>
 cd auto-deploy
+```
 
 ### 2. Create and Activate a Virtual Environment (Optional but Recommended)
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
+```
 
 ### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
+```
 
 ### 4. Run with a GitHub Repository URL (For example in our case Arvo-AI Repo)
 
@@ -79,8 +85,4 @@ pip install -r requirements.txt
 python3 main.py \
   --description "Deploy this Flask app on AWS" \
   --repo https://github.com/Arvo-AI/hello_world
-
-
-
-
-
+```
