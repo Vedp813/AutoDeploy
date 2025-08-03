@@ -1,0 +1,54 @@
+# templates/aws_ec2.tf.j2
+
+provider "aws" {
+  region = "us-west-2"
+}
+
+resource "aws_instance" "app_server" {
+  ami           = "ami-08d4ac5b634553e16" # Ubuntu 22.04 in us-west-2
+  instance_type = "t2.micro"
+  key_name      = "{{ key_name }}"
+  associate_public_ip_address = true
+
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo apt update -y
+              sudo apt install -y python3-pip git
+              git clone {{ repo_url }} app
+              cd app/{{ relative_app_dir }}
+              pip3 install -r requirements.txt
+              nohup python3 {{ app_entry_file }} > output.log 2>&1 &
+              EOF
+
+  vpc_security_group_ids = [aws_security_group.allow_http.id]
+
+  tags = {
+    Name = "AutoDeployedApp"
+  }
+}
+
+resource "aws_security_group" "allow_http" {
+  name        = "allow_http"
+  description = "Allow HTTP and Flask app port"
+
+  ingress {
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
